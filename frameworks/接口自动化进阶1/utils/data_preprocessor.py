@@ -1,0 +1,34 @@
+import base64
+
+import ddddocr
+from PIL import Image
+from io import BytesIO
+
+
+def dddd_ocr_text(data):
+
+    #分割data文本，去头拿base64编码部分
+    encode_data = data.split(",")[1]
+    #解码base64元数据
+    decode_data = base64.b64decode(encode_data)
+    #BytesIO是一个临时存放数据的区域---“内存中的字节流”
+    #将解码数据调整为图像数据打开并存入BytesIO
+    image = Image.open(BytesIO(decode_data))
+
+    #定义另一个字节流
+    image_bytes = BytesIO()
+    #把图像数据格式转换为PNG格式的字节数据
+    image.save(image_bytes, format="PNG")
+    #getvalue() 是 BytesIO 对象的方法，作用是“把内部缓冲区里的所有内容，以 bytes 类型提取出来”
+    image_bytes = image_bytes.getvalue()
+
+    #初始化
+    ocr = ddddocr.DdddOcr()
+    # 把这张刚刚洗好的 PNG 标准照片（二进制字节数据）喂给 ddddocr 的神经网络模型,模型识别像素点，输出字符串，比如 "7g5ba"
+    text = ocr.classification(image_bytes)
+    return text
+
+
+if __name__ == '__main__':
+    data = "data:image/jpeg;base64,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"
+    print(dddd_ocr_text(data))
