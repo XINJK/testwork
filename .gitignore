@@ -1,0 +1,24 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# ---- IDE / OS ----
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ---- 原始输入与运行产物（含第三方材料，不公开）----
+input/*.pdf
+input/extracted/
+output/
+
+# ---- 框架样本中的本地环境配置（含内网地址与账号，不公开）----
+frameworks/**/config/config.py
+
+# ---- 运行产物 ----
+log/
+report/
